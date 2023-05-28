@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet  id="20221222174300"  author="pavel.bushmanov" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <tableIsEmpty tableName="type"/>
+        </preConditions>
+
+        <insert tableName="type">
+            <column name="name">integer</column>
+        </insert>
+        <insert tableName="type">
+            <column name="name">text</column>
+        </insert>
+        <insert tableName="type">
+            <column name="name">real</column>
+        </insert>
+        <insert tableName="type">
+            <column name="name">dimension</column>
+        </insert>
+
+        <rollback>
+            <delete tableName="type"/>
+        </rollback>
+    </changeSet>
+
+
+</databaseChangeLog>

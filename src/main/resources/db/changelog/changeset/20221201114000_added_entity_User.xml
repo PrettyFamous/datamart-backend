@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="20221201114000" author="pavel.bushmanov">
+        <createTable tableName="users">
+            <column name="id_user" type="integer" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="full_name" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+<!--        <addForeignKeyConstraint constraintName="fk_role" baseColumnNames="id_role"-->
+<!--            baseTableName="role"-->
+<!--             onDelete="CASCADE"-->
+<!--             onUpdate="RESTRICT"-->
+<!--            referencedColumnNames="role_fk"-->
+<!--            referencedTableName="user"-->
+<!--        />-->
+
+    </changeSet>
+</databaseChangeLog>
