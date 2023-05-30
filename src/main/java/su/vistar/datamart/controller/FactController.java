@@ -73,9 +73,14 @@ public class FactController {
         return new ResponseEntity<>(factService.addFact(factModel), HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<Fact> updateFact(@RequestBody FactModel factModel) {
-        return new ResponseEntity<>(factService.updateFact(factModel), HttpStatus.OK);
+    @PutMapping("/info/{factId}")
+    public ResponseEntity<Fact> updateFact(@PathVariable Long factId,
+                                           @RequestParam("dimensionName") String dimensionName,
+                                           @RequestParam("isFact") Boolean isFact,
+                                           @RequestParam("newValue") String newValue,
+                                           @RequestParam("rowId") Long rowId) {
+        factService.updateFact(factId, dimensionName, isFact, newValue, rowId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

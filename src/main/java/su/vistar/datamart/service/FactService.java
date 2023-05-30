@@ -1,6 +1,7 @@
 package su.vistar.datamart.service;
 
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 import su.vistar.datamart.entity.Fact;
 import su.vistar.datamart.model.FactInfoModel;
 import su.vistar.datamart.model.FactModel;
@@ -15,7 +16,7 @@ public interface FactService {
 
     Fact addFact(FactModel factModel);
 
-    Fact updateFact(FactModel factModel);
+    Fact updateFact(Long factId, String dimensionName, Boolean isFact, String newValue, Long rowId);
 
     void deleteById(Long id);
 }

@@ -3,11 +3,15 @@ package su.vistar.datamart.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Transactional
 public class DataRepository {
     @PersistenceContext
     private EntityManager entityManager;
@@ -30,7 +34,6 @@ public class DataRepository {
         return stringList;
     }
 
-    // FIXME только для одной колонки в dimensions!!
     public String[] GetValues(String tableName, String columns) {
         Query query = entityManager.createNativeQuery("SELECT " + columns + " FROM " + tableName + ";");
         List<Object> queryResult = query.getResultList();
@@ -55,4 +58,19 @@ public class DataRepository {
         return (String)query.getSingleResult();
     }
 
+    public void updateValue(String tableName, String nameOfIdColumn, Long rowId, String columnName, Double newValue) {
+        Query query = entityManager.createNativeQuery(
+                "UPDATE " + tableName +
+                " SET " + columnName + "=" + newValue + " WHERE " + nameOfIdColumn + "=" + rowId);
+
+        query.executeUpdate();
+    }
+
+    public void updateDimension(String tableName, String nameOfIdColumn, Long rowId, String columnName, Long newValue) {
+        Query query = entityManager.createNativeQuery(
+                "UPDATE " + tableName +
+                        " SET " + columnName + "=" + newValue + " WHERE " + nameOfIdColumn + "=" + rowId);
+
+        query.executeUpdate();
+    }
 }

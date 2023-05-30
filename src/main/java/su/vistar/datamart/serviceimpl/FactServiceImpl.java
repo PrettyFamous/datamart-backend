@@ -6,9 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import su.vistar.datamart.entity.Fact;
-import su.vistar.datamart.entity.FactAttr;
-import su.vistar.datamart.entity.User;
+import su.vistar.datamart.entity.*;
 import su.vistar.datamart.exception.ResourceAlreadyExistsException;
 import su.vistar.datamart.exception.ResourceNotFoundException;
 import su.vistar.datamart.model.FactInfoModel;
@@ -151,23 +149,27 @@ public class FactServiceImpl implements FactService {
     }
 
     @Override
-    public Fact updateFact(FactModel factModel) {
-        User user = userRepository
-                .findById(factModel.getUserId())
+    public Fact updateFact(Long factId, String dimensionName, Boolean isFact, String newValue, Long rowId) {
+        Fact fact = factRepository.findById(factId)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Resource \"Namespace\" with id=" + factModel.getUserId() + " does not exist."));
+                "Resource \"Fact\" with id=" + factId + " does not exist."));
 
-        Fact fact = factRepository.findById(factModel.getId())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Resource \"Fact\" with name=" + factModel.getName() + " does not exist."));
 
-        String systemName = toLatinTrans.transliterate(factModel.getName()).replaceAll(" ", "_");
-        systemName += "_" + factRepository.getUniqueVal();
+        String nameOfIdColumn = "id_" + fact.getSystemName();
 
-        fact.setName(factModel.getName());
-        fact.setSystemName(systemName);
-        fact.setUser(user);
-        factRepository.save(fact);
+        if (isFact) {
+            String systemColumnName = factRepository.getSystemNameOfValueColumn(factId);
+
+            dataRepository.updateValue(fact.getSystemName(), nameOfIdColumn, rowId, systemColumnName, Double.valueOf(newValue));
+        } else {
+            Dimension dimension = dimensionRepository.findDimensionByNameAndUser(dimensionName, fact.getUser());
+            DimensionAttr dimensionAttr = dimensionAttrRepository.findByDimension(dimension);
+            FactAttr factAttr = factAttrRepository.findByNameAndFact(dimensionName, fact);
+            int newDimensionRowId = dataRepository.GetRowIdByTableAndValue(dimension.getSystemName(), newValue, dimensionAttr.getName());
+            String nameOfDimensionColumnInFactTable = "id_" + factAttr.getSystemName();
+
+            dataRepository.updateDimension(fact.getSystemName(), nameOfIdColumn, rowId, nameOfDimensionColumnInFactTable, Long.valueOf(newDimensionRowId));
+        }
 
         return fact;
     }
