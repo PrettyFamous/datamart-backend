@@ -4,8 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import su.vistar.datamart.entity.Fact;
 import su.vistar.datamart.entity.FactAttr;
-import su.vistar.datamart.entity.Type;
-
 import java.util.Optional;
 
 @Repository

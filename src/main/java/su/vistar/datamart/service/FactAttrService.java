@@ -1,6 +1,5 @@
 package su.vistar.datamart.service;
 
-
 import su.vistar.datamart.entity.FactAttr;
 import su.vistar.datamart.model.FactAttrModel;
 

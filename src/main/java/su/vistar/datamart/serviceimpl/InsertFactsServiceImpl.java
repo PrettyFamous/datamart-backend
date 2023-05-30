@@ -13,8 +13,6 @@ import su.vistar.datamart.exception.ResourceNotFoundException;
 import su.vistar.datamart.repository.*;
 import su.vistar.datamart.service.InsertFactsService;
 import su.vistar.datamart.service.UserService;
-
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -22,7 +20,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import static com.fasterxml.jackson.core.io.NumberInput.parseLong;
 
 @Service

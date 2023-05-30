@@ -1,6 +1,5 @@
 package su.vistar.datamart.service;
 
-
 import su.vistar.datamart.entity.DimensionAttr;
 import su.vistar.datamart.model.DimensionAttrModel;
 

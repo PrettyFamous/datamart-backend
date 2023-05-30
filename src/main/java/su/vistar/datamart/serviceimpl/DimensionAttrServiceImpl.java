@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import su.vistar.datamart.entity.Dimension;
 import su.vistar.datamart.entity.DimensionAttr;
-import su.vistar.datamart.entity.Fact;
 import su.vistar.datamart.entity.Type;
 import su.vistar.datamart.exception.ResourceAlreadyExistsException;
 import su.vistar.datamart.exception.ResourceNotFoundException;

@@ -10,7 +10,6 @@ import su.vistar.datamart.entity.Dimension;
 import su.vistar.datamart.entity.User;
 import java.util.List;
 
-
 @Repository
 public interface DimensionRepository extends CrudRepository<Dimension, Long> {
 

@@ -6,7 +6,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import su.vistar.datamart.entity.Dimension;
 import su.vistar.datamart.entity.Fact;
 import su.vistar.datamart.entity.FactAttr;
 import su.vistar.datamart.entity.User;

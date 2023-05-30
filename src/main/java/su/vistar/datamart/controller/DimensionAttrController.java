@@ -9,7 +9,6 @@ import su.vistar.datamart.entity.DimensionAttr;
 import su.vistar.datamart.model.DimensionAttrModel;
 import su.vistar.datamart.service.DimensionAttrService;
 
-
 @Controller
 @AllArgsConstructor
 @RequestMapping("/dimension_attr")

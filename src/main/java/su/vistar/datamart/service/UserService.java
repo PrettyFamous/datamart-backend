@@ -1,6 +1,5 @@
 package su.vistar.datamart.service;
 
-
 import su.vistar.datamart.entity.User;
 import su.vistar.datamart.model.UserModel;
 

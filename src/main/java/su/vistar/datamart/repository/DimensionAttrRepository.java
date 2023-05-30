@@ -1,8 +1,6 @@
 package su.vistar.datamart.repository;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import su.vistar.datamart.entity.Dimension;
 import su.vistar.datamart.entity.DimensionAttr;
