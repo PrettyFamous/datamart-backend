@@ -78,6 +78,7 @@ public class FactServiceImpl implements FactService {
         }
 
         List<String[]> rowData =  new ArrayList<>();
+        rowData.add(dataRepository.GetValues(fact.getSystemName(), "id_" + fact.getSystemName()));
         for (int i=0; i < factAttrs.length; i++) {
             if (factAttrs[i].getType().getId() != 4) {
                 String[] columnData = dataRepository.GetValues(fact.getSystemName(), factAttrs[i].getSystemName());
