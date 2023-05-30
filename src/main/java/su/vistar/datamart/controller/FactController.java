@@ -1,6 +1,7 @@
 package su.vistar.datamart.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,9 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 import su.vistar.datamart.entity.Fact;
 import su.vistar.datamart.model.FactInfoModel;
 import su.vistar.datamart.model.FactModel;
+import su.vistar.datamart.model.PageDTO;
 import su.vistar.datamart.service.FactService;
 import su.vistar.datamart.service.InsertFactsService;
-
 
 @Controller
 @AllArgsConstructor
@@ -26,9 +27,13 @@ public class FactController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Fact>> getFacts(@RequestParam("search") String name) {
-        return new ResponseEntity<>(factService.getFacts(name), HttpStatus.OK);
+    public ResponseEntity<Page<Fact>> getFacts(@RequestParam("page") int pageNum, @RequestParam("search") String name) {
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setPageNumber(pageNum);
+        Page<Fact> page = factService.getFacts(name, pageDTO);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
+
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
     public ResponseEntity handleFileUpload(@RequestParam("templateFileName") String templateFileName,

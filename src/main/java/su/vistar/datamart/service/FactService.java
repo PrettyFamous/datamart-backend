@@ -1,15 +1,15 @@
 package su.vistar.datamart.service;
 
-
+import org.springframework.data.domain.Page;
 import su.vistar.datamart.entity.Fact;
-import su.vistar.datamart.model.DimensionInfoModel;
 import su.vistar.datamart.model.FactInfoModel;
 import su.vistar.datamart.model.FactModel;
+import su.vistar.datamart.model.PageDTO;
 
 public interface FactService {
     Fact getFactById(Long id);
 
-    Iterable<Fact> getFacts(String name);
+    Page<Fact> getFacts(String name, PageDTO pageDTO);
 
     FactInfoModel getFactInfoById(Long id);
 

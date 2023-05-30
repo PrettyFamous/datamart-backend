@@ -1,5 +1,7 @@
 package su.vistar.datamart.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +19,9 @@ public interface DimensionRepository extends CrudRepository<Dimension, Long> {
     Dimension findDimensionByNameAndUser(String name, User user);
 
     @Query("Select d from Dimension d where d.name like %:name%")
-    Iterable<Dimension> findAllByName(@Param("name") String name);
+    Page<Dimension> findAllByName(@Param("name") String name, Pageable pageable);
+
+    Page<Dimension> findAll(Pageable pageable);
 
     @Query(value = "SELECT nextval('system_name_seq');", nativeQuery = true)
     Long getUniqueVal();

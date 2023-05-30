@@ -3,6 +3,7 @@ package su.vistar.datamart.serviceimpl;
 import com.ibm.icu.text.Transliterator;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import su.vistar.datamart.entity.Dimension;
@@ -11,6 +12,7 @@ import su.vistar.datamart.exception.ResourceAlreadyExistsException;
 import su.vistar.datamart.exception.ResourceNotFoundException;
 import su.vistar.datamart.model.DimensionInfoModel;
 import su.vistar.datamart.model.DimensionModel;
+import su.vistar.datamart.model.PageDTO;
 import su.vistar.datamart.repository.DataRepository;
 import su.vistar.datamart.repository.DimensionRepository;
 import su.vistar.datamart.repository.UserRepository;
@@ -93,11 +95,11 @@ public class DimensionServiceImpl implements DimensionService {
     }
 
     @Override
-    public Iterable<Dimension> getDimensions(String name) {
+    public Page<Dimension> getDimensions(String name, PageDTO pageDTO) {
         if (name == "") {
-            return dimensionRepository.findAll();
+            return dimensionRepository.findAll(pageDTO.getPageable());
         } else {
-            return dimensionRepository.findAllByName(name);
+            return dimensionRepository.findAllByName(name, pageDTO.getPageable());
         }
     }
 

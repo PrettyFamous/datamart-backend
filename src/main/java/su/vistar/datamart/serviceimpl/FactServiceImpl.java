@@ -3,8 +3,10 @@ package su.vistar.datamart.serviceimpl;
 import com.ibm.icu.text.Transliterator;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import su.vistar.datamart.entity.Dimension;
 import su.vistar.datamart.entity.Fact;
 import su.vistar.datamart.entity.FactAttr;
 import su.vistar.datamart.entity.User;
@@ -12,6 +14,7 @@ import su.vistar.datamart.exception.ResourceAlreadyExistsException;
 import su.vistar.datamart.exception.ResourceNotFoundException;
 import su.vistar.datamart.model.FactInfoModel;
 import su.vistar.datamart.model.FactModel;
+import su.vistar.datamart.model.PageDTO;
 import su.vistar.datamart.repository.*;
 import su.vistar.datamart.service.DimensionService;
 import su.vistar.datamart.service.FactService;
@@ -42,11 +45,11 @@ public class FactServiceImpl implements FactService {
     }
 
     @Override
-    public Iterable<Fact> getFacts(String name) {
+    public Page<Fact> getFacts(String name, PageDTO pageDTO) {
         if (name == "") {
-            return factRepository.findAll();
+            return factRepository.findAll(pageDTO.getPageable());
         } else {
-            return factRepository.findAllByName(name);
+            return factRepository.findAllByName(name, pageDTO.getPageable());
         }
     }
 

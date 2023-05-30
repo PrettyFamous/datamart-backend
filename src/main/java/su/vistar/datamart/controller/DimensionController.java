@@ -2,6 +2,8 @@ package su.vistar.datamart.controller;
 
 import com.sun.tools.jconsole.JConsoleContext;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import su.vistar.datamart.entity.Dimension;
 import su.vistar.datamart.model.DimensionInfoModel;
+import su.vistar.datamart.model.PageDTO;
 import su.vistar.datamart.service.DimensionService;
 import su.vistar.datamart.model.DimensionModel;
 import su.vistar.datamart.service.InsertDimensionService;
@@ -26,8 +29,11 @@ public class DimensionController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Dimension>> getDimensions(@RequestParam("search") String name) {
-        return new ResponseEntity<>(dimensionService.getDimensions(name), HttpStatus.OK);
+    public ResponseEntity<Page<Dimension>> getDimensions(@RequestParam("page") int pageNum, @RequestParam("search") String name) {
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setPageNumber(pageNum);
+        Page<Dimension> page = dimensionService.getDimensions(name, pageDTO);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
