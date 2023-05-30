@@ -31,7 +31,6 @@ public class DimensionAttr {
     @Column(name = "name")
     private String name;
 
-
     @NonNull
     @JoinColumn(name = "id_type")
     @ManyToOne

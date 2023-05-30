@@ -61,7 +61,7 @@ public class DimensionServiceImpl implements DimensionService {
 
         String[] values = dataRepository.GetValues(dimension.getSystemName(), querryColumns);
 
-        return values; // FIXME только джля одной колонки в dimensions!!
+        return values;
     }
 
     @Override
@@ -79,7 +79,6 @@ public class DimensionServiceImpl implements DimensionService {
         }
         arrayColumns[0] = "id";
 
-        // Получить сами данные в таблице
         String queryColumns = columns.toString();
         List<String[]> rows = dataRepository.GetData(dimension.getSystemName(), queryColumns.substring(1, queryColumns.length()-1));
 

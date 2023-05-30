@@ -122,7 +122,6 @@ public class InsertFactsServiceImpl implements InsertFactsService {
     }
 
     private void addRowIntoFactTable(String factTableName, String factName, double factValue, List<Pair<String, String>> dimensionList) {
-        // 1. Создать список колонок в таблице
         User user = userService.getUserById(parseLong("1"));
 
         String columns = "";
@@ -142,8 +141,6 @@ public class InsertFactsServiceImpl implements InsertFactsService {
         columns += factAttrRepository.findByNameAndFact(factName, factRepository.findBySystemName(factTableName)).getSystemName().toLowerCase();
         values += factValue;
 
-
-        // 2. Запихнуть данные в том же порядке
         String query = "INSERT INTO " + factTableName + " (" + columns
                 + ") VALUES (" + values + ");";
 
@@ -176,7 +173,6 @@ public class InsertFactsServiceImpl implements InsertFactsService {
         );
         factRepository.save(fact);
 
-        // Создаём колонку для данных
         String attrSystemName = toLatinTrans.transliterate(factName).replaceAll(" ", "_").toLowerCase();
         attrSystemName += "_" + factRepository.getUniqueVal();
 
@@ -197,8 +193,6 @@ public class InsertFactsServiceImpl implements InsertFactsService {
         );
         factAttrRepository.save(factAttr);
 
-
-        // Создаём колонки с ID дименшенов
         for (int i=0; i< dimensionList.size(); i++) {
             String dimensionSystemName = dimensionRepository.findDimensionByNameAndUser(dimensionList.get(i).first, user).getSystemName().toLowerCase();
             query = "ALTER TABLE " + systemName + " ADD COLUMN id_" + dimensionSystemName + " integer;";

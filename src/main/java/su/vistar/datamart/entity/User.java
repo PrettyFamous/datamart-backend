@@ -25,12 +25,15 @@ public class User {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column(name = "id_user")
     private Long id;
+
     @NonNull
     @Column(name = "full_name")
     private String fullName;
+
     @NonNull
     @Column(name = "login")
     private String login;
+
     @NonNull
     @Column(name = "password")
     private String password;

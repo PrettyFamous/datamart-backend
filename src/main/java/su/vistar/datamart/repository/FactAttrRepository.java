@@ -8,8 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface FactAttrRepository extends CrudRepository<FactAttr, Long> {
-     boolean existsByName(String name);
-
     boolean existsByNameAndFact(String name, Optional<Fact> fact);
 
     FactAttr[] getAllByFact_Id(Long fact_id);

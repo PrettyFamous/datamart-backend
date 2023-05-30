@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface DimensionAttrRepository extends CrudRepository<DimensionAttr, Long> {
-    boolean existsByName(String name);
     boolean existsByNameAndDimension(String name, Optional<Dimension> dimension);
 
     DimensionAttr findByDimension(Dimension dimension);

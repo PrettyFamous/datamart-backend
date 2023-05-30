@@ -61,15 +61,11 @@ public class FactServiceImpl implements FactService {
 
         FactAttr[] factAttrs = factAttrRepository.getAllByFact_Id(id);
 
-
-        // Формируем массив с названиями атрибутов
         String[] attrNames = new String[factAttrs.length];
         for (int i=0; i< factAttrs.length; i++) {
             attrNames[i] = factAttrs[i].getName();
         }
 
-
-        // Формируем список с массивами значений атрибутов
         List<String[]> attrValues = new ArrayList<>();
         for (int i=0; i< factAttrs.length; i++) {
             if (!factAttrs[i].getType().getName().equals("dimension")) {
@@ -79,23 +75,19 @@ public class FactServiceImpl implements FactService {
                         dimensionRepository.findDimensionByNameAndUser( factAttrs[i].getName(), fact.getUser() ).getId()
                 );
 
-                // FIXME Поправить, если нужны составные дименшены
                 attrValues.add(dimValues);
             }
         }
 
-
-        // Формируем Матрицу с данными ПО КОЛОНКАМ
         List<String[]> rowData =  new ArrayList<>();
         for (int i=0; i < factAttrs.length; i++) {
-            if (factAttrs[i].getType().getId() != 4) { // Если не дименшен
-                String[] columnData = dataRepository.GetValues(fact.getSystemName(), factAttrs[i].getSystemName()); // Берём данные из самой таблицы
+            if (factAttrs[i].getType().getId() != 4) {
+                String[] columnData = dataRepository.GetValues(fact.getSystemName(), factAttrs[i].getSystemName());
 
                 rowData.add(columnData);
-            } else { // Если дименшен, то надо подставить значение вместо ID
+            } else {
                 String[] columnData = dataRepository.GetValues(fact.getSystemName(), "id_" + factAttrs[i].getSystemName());
                 for (int j=0; j<columnData.length; j++) {
-                    // Берём ID дименшена
                     String columnNameAtDimensionTable = dimensionAttrRepository.findByDimension(dimensionRepository.findDimensionByNameAndUser( factAttrs[i].getName(), fact.getUser() )).getName();
                     columnData[j] = dataRepository.GetValueByTableAndId(factAttrs[i].getSystemName(), Long.parseLong(columnData[j]), columnNameAtDimensionTable);
                 }
@@ -103,7 +95,6 @@ public class FactServiceImpl implements FactService {
             }
         }
 
-        // Транспонируем данные
         List<String[]> data = new ArrayList<>();
         for (int i=0; i < rowData.get(0).length; i++) {
             String[] row = new String[rowData.size()];
@@ -159,7 +150,6 @@ public class FactServiceImpl implements FactService {
         return fact;
     }
 
-    // TODO Сделать нативный запрос на пересоздание таблицы
     @Override
     public Fact updateFact(FactModel factModel) {
         User user = userRepository
@@ -173,13 +163,6 @@ public class FactServiceImpl implements FactService {
 
         String systemName = toLatinTrans.transliterate(factModel.getName()).replaceAll(" ", "_");
         systemName += "_" + factRepository.getUniqueVal();
-
-        // 1. Удалить старую таблицу
-        // 2. Создатиь таблицу с нвоым именем
-        // 3. Добавить в неё все атрибуты, которые были в старой табилице, для чего:
-        //      1) из репозитория достать все dimensionAttr, у которых idDimension равен id текущего Dimension
-        //      2) в цикле сделать "ALTER... ADD COLUMN..." для всех найденых атрибутов
-
 
         fact.setName(factModel.getName());
         fact.setSystemName(systemName);

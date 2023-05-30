@@ -36,7 +36,6 @@ public class FactAttr {
     @Column(name = "system_name")
     private String systemName;
 
-
     @NonNull
     @JoinColumn(name = "id_type")
     @ManyToOne
